@@ -1,12 +1,19 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 
-const geist = Geist({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
   weight: ['400', '500', '600'],
+})
+
+const interDisplay = Inter({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  weight: ['400'],
 })
 
 export const metadata: Metadata = {
@@ -28,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geist.variable} font-body antialiased`}>
+      <body className={`${inter.variable} ${interDisplay.variable} font-body antialiased`}>
         {children}
       </body>
     </html>

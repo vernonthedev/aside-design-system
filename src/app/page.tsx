@@ -343,11 +343,10 @@ function IconDemo() {
           <h3 className="text-title-lg text-on-surface mb-3">{category}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
             {icons.map(iconName => {
-              const Icon = (window as any).__ICON_COMPONENTS__?.[iconName]
               return (
                 <div key={iconName} className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-surface-container transition-colors group">
                   <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
-                    {Icon && <Icon size={24} />}
+                    <span className="text-label-sm text-on-surface-variant">{iconName}</span>
                   </div>
                   <span className="text-label-sm text-on-surface-variant text-center truncate">{iconName}</span>
                 </div>
@@ -638,7 +637,7 @@ function ComponentsDemo() {
           >
             <div className="font-mono text-sm text-error bg-error-container/20 p-3 rounded">
               {`error TS2322: Type 'string' is not assignable to type 'Theme'.
-  Theme = 'light' | 'dark' | 'system'`
+  Theme = 'light' | 'dark' | 'system'`}
             </div>
           </ToolOutput>
         </div>
