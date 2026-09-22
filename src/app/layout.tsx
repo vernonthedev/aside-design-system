@@ -1,20 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
-  weight: ['400', '500', '600'],
-})
-
-const interDisplay = Inter({
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-  weight: ['400'],
-})
 
 export const metadata: Metadata = {
   title: 'Aside Design System',
@@ -35,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${interDisplay.variable} font-body antialiased`}>
+      <body className="font-body antialiased">
         {children}
       </body>
     </html>

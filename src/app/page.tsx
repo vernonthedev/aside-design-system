@@ -1,127 +1,165 @@
 'use client'
 
 import { useState } from 'react'
-import { 
-  Sun, Moon, Monitor, ChevronDown, ChevronRight, 
-  Sparkles, Code, Terminal, Image, FileText, Copy, CheckCircle,
-  MessageSquare, Bot, User, Layers, Settings, Search, Plus,
-  ChevronLeft, X, Expand, Zap, Play, Pause, Stop
-} from '@/components/icons'
-import { Button } from '@/components/Button'
-import { Dropdown } from '@/components/Dropdown'
-import { SidePanel } from '@/components/SidePanel'
-import { NewTabPage } from '@/components/NewTabPage'
-import { ThemeProvider, useTheme } from '@/components/ThemeProvider'
-import { 
-  Overview, SidePanelDemo, NewTabDemo
-} from '@/components/DemoComponents'
+import { ThemeProvider } from '@/components/ThemeProvider'
+import { NavRail } from '@/components/aside/settings'
+import {
+  GeneralPage, AppearancePage, AgentsPage, LassoPage, PluginsPage,
+  DevelopersPage, ChatsPage, MemoryPage, CompactPage,
+} from '@/components/aside/pages'
 
-const mockSessions = [
-  { id: '1', title: 'Helium browser vs Chrome comparison', preview: 'Researching Helium browser features, privacy comparison with Chrome, memory usage benchmarks...', timestamp: '1m ago', status: 'running' as const },
-  { id: '2', title: 'Latest Zod version', preview: 'The latest version of Zod is 4.6.5. Released with improved type inference...', timestamp: '3 min ago', status: 'completed' as const },
-  { id: '3', title: 'GitHub App installation', preview: 'For apps owned by personal accounts: can install on this account or any account you control...', timestamp: '20h ago', status: 'completed' as const },
-]
+const COMPACT_PAGES: Record<string, { title: string; rows: { title: string; description?: string; control?: 'toggle' | 'pill' | 'kbd'; controlText?: string }[] }> = {
+  account: {
+    title: 'Account',
+    rows: [
+      { title: 'Profile', description: 'Signed in as demo user', control: 'pill', controlText: 'Manage' },
+      { title: 'Sync settings', description: 'Sync preferences across signed-in devices', control: 'toggle' },
+    ],
+  },
+  plan: {
+    title: 'Plan & Usage',
+    rows: [
+      { title: 'Current plan', description: 'Free tier with core agent features', control: 'pill', controlText: 'Upgrade' },
+      { title: 'Monthly usage', description: 'Track task runs and model consumption', control: 'pill', controlText: 'Details' },
+    ],
+  },
+  security: {
+    title: 'Security & Privacy',
+    rows: [
+      { title: 'Block trackers', description: 'Block known trackers on every page', control: 'toggle' },
+      { title: 'Clear browsing data', description: 'History, cookies, cache, and site settings', control: 'pill', controlText: 'Clear' },
+    ],
+  },
+  projects: {
+    title: 'Projects',
+    rows: [
+      { title: 'Default project', description: 'New chats attach to this project', control: 'pill', controlText: 'Choose' },
+      { title: 'Project roots', description: 'Folders agents may view and edit', control: 'pill', controlText: 'Manage' },
+    ],
+  },
+  models: {
+    title: 'Models',
+    rows: [
+      { title: 'Default model', description: 'Used for new chats and routines', control: 'pill', controlText: 'Nemotron 3' },
+      { title: 'Custom providers', description: 'Paste a pi-compatible provider config', control: 'pill', controlText: 'Add' },
+    ],
+  },
+  passwords: {
+    title: 'Passwords',
+    rows: [
+      { title: 'Offer to save passwords', description: 'Prompt when you sign in to sites', control: 'toggle' },
+      { title: 'Auto sign-in', description: 'Sign in automatically where possible', control: 'toggle' },
+    ],
+  },
+  routines: {
+    title: 'Routines',
+    rows: [
+      { title: 'Enabled routines', description: 'Automations running on a schedule', control: 'pill', controlText: '2 active' },
+      { title: 'Routine history', description: 'Review past runs and outputs', control: 'pill', controlText: 'View' },
+    ],
+  },
+  channels: {
+    title: 'Channels',
+    rows: [
+      { title: 'Connected channels', description: 'Where Aside sends updates', control: 'pill', controlText: 'Manage' },
+      { title: 'Desktop notifications', description: 'Notify when routines finish', control: 'toggle' },
+    ],
+  },
+  minipopup: {
+    title: 'Mini popup',
+    rows: [
+      { title: 'Show mini popup', description: 'Quick actions over selected text', control: 'toggle' },
+      { title: 'Popup position', description: 'Where the popup appears', control: 'pill', controlText: 'Above' },
+    ],
+  },
+  context: {
+    title: 'Context Awareness',
+    rows: [
+      { title: 'Learn from context', description: 'Let Aside work proactively with less input', control: 'toggle' },
+      { title: 'Context sources', description: 'Tabs, files, and tools Aside may observe', control: 'pill', controlText: 'Manage' },
+    ],
+  },
+  archived: {
+    title: 'Archived chats',
+    rows: [
+      { title: 'Archived items', description: 'Chats you archived from the sidebar', control: 'pill', controlText: 'Browse' },
+      { title: 'Auto-archive', description: 'Archive inactive chats after 90 days', control: 'toggle' },
+    ],
+  },
+  feedback: {
+    title: 'Send feedback',
+    rows: [{ title: 'Feedback channel', description: 'Opens the Aside feedback form', control: 'pill', controlText: 'Open' }],
+  },
+  extensions: {
+    title: 'Extensions',
+    rows: [{ title: 'Web store', description: 'Opens in a new tab in the real browser', control: 'pill', controlText: 'Open' }],
+  },
+  docs: {
+    title: 'Docs',
+    rows: [{ title: 'Documentation', description: 'Opens in a new tab in the real browser', control: 'pill', controlText: 'Open' }],
+  },
+  community: {
+    title: 'Community',
+    rows: [{ title: 'Community hub', description: 'Opens in a new tab in the real browser', control: 'pill', controlText: 'Open' }],
+  },
+}
 
-const mockRoutines = [
-  { id: 'r1', name: 'Daily briefing', description: 'Morning summary of emails, calendar, and news', status: 'active' as const, lastRun: 'Today 8:00 AM' },
-  { id: 'r2', name: 'Weekly report', description: 'Generate analytics report every Monday', status: 'active' as const, lastRun: 'Yesterday 9:00 AM' },
-  { id: 'r3', name: 'Code review automation', description: 'Auto-assign reviewers and run checks', status: 'paused' as const, lastRun: '3 days ago' },
-]
-
-function DemoPage() {
-  const { theme, resolvedTheme, setTheme } = useTheme()
-  const [sidePanelOpen, setSidePanelOpen] = useState(false)
-  const [newTabOpen, setNewTabOpen] = useState(false)
-  const [activeView, setActiveView] = useState<'overview' | 'sidepanel' | 'newtab'>('overview')
-
+function SettingsView() {
+  const [page, setPage] = useState('general')
+  const compact = COMPACT_PAGES[page]
   return (
-    <div className="min-h-screen bg-background">
-      {/* Top Navigation */}
-      <header className="border-b border-outline-variant bg-surface/80 backdrop-blur-sm sticky top-0 z-40">
-        <div className="max-w-[1320px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-title-lg font-medium text-on-surface">Aside Design System</span>
-            <nav className="flex items-center gap-1 ml-4 border-l border-outline-variant pl-4">
-              {['overview', 'sidepanel', 'newtab'].map(view => (
-                <button
-                  key={view}
-                  onClick={() => setActiveView(view)}
-                  className={`px-3 py-1.5 text-label-sm rounded-default transition-colors ${
-                    activeView === view 
-                      ? 'bg-primary text-on-primary' 
-                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
-                  }`}
-                >
-                  {view.charAt(0).toUpperCase() + view.slice(1)}
-                </button>
-              ))}
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <Dropdown
-              trigger={
-                <Button variant="ghost" size="sm" leftIcon={
-                  theme === 'light' ? <Sun size={18} /> : 
-                  theme === 'dark' ? <Moon size={18} /> : 
-                  <Monitor size={18} />
-                }>
-                  {theme.charAt(0).toUpperCase() + theme.slice(1)}
-                  <ChevronDown size={14} />
-                </Button>
-              }
-              items={[
-                { label: 'Light', value: 'light', icon: <Sun size={16} /> },
-                { label: 'Dark', value: 'dark', icon: <Moon size={16} /> },
-                { label: 'System', value: 'system', icon: <Monitor size={16} /> },
-              ]}
-              value={theme}
-              onChange={setTheme}
-              placeholder="Theme"
-            />
-            <Button variant="ghost" size="sm" onClick={() => setSidePanelOpen(true)} leftIcon={<MessageSquare size={18} />}>
-              Side Panel
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setNewTabOpen(true)} leftIcon={<Plus size={18} />}>
-              New Tab
-            </Button>
-          </div>
+    <div className="mx-auto flex min-h-screen w-full max-w-[1100px]">
+      <div className="sticky top-0 h-screen shrink-0 border-r border-[var(--as-border)]">
+        <NavRail active={page} onSelect={setPage} />
+      </div>
+      <main className="min-w-0 flex-1 px-8 py-8">
+        <div className="mx-auto max-w-[640px]">
+          {page === 'general' && <GeneralPage />}
+          {page === 'appearance' && <AppearancePage />}
+          {page === 'agents' && <AgentsPage />}
+          {page === 'lasso' && <LassoPage />}
+          {page === 'plugins' && <PluginsPage />}
+          {page === 'developers' && <DevelopersPage />}
+          {page === 'memory' && <MemoryPage />}
+          {compact && <CompactPage title={compact.title} rows={compact.rows} />}
         </div>
-      </header>
-
-      <main className="max-w-[1320px] mx-auto px-6 py-8">
-        {activeView === 'overview' && <Overview />}
-        {activeView === 'sidepanel' && <SidePanelDemo onOpenSidePanel={() => setSidePanelOpen(true)} />}
-        {activeView === 'newtab' && <NewTabDemo onOpenNewTab={() => setNewTabOpen(true)} />}
       </main>
+    </div>
+  )
+}
 
-      {/* Side Panel Modal */}
-      {sidePanelOpen && (
-        <div className="fixed inset-0 z-50 flex items-end">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setSidePanelOpen(false)} />
-          <SidePanel
-            sessions={mockSessions}
-            routines={mockRoutines}
-            onNewChat={() => {}}
-            onNewSession={() => {}}
-            onSessionSelect={() => {}}
-            onClose={() => setSidePanelOpen(false)}
-            theme={theme}
-          />
+function Shell() {
+  const [view, setView] = useState<'settings' | 'chats'>('settings')
+  return (
+    <div className="min-h-screen bg-[var(--as-bg)] text-[var(--as-ink)]">
+      <div className="border-b border-[var(--as-border)]">
+        <div className="mx-auto flex w-full max-w-[1100px] items-center gap-1 px-4 py-2">
+          <span className="mr-2 text-[13px] font-semibold">Aside replica</span>
+          {(['settings', 'chats'] as const).map((v) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setView(v)}
+              className={`rounded-full px-3 py-1 text-[13px] font-medium capitalize transition-colors duration-150 ${
+                view === v
+                  ? 'bg-[var(--as-sunken)] text-[var(--as-ink)]'
+                  : 'text-[var(--as-ink-2)] hover:text-[var(--as-ink)]'
+              }`}
+            >
+              {v === 'chats' ? 'New tab' : v}
+            </button>
+          ))}
+          <span className="ml-auto hidden text-xs text-[var(--as-ink-3)] sm:block">
+            Switch theme in Appearance
+          </span>
         </div>
-      )}
-
-      {/* New Tab Modal */}
-      {newTabOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setNewTabOpen(false)}>
-          <div className="w-full max-w-4xl h-[90vh] bg-surface rounded-lg shadow-level-3 overflow-hidden" onClick={e => e.stopPropagation()}>
-            <NewTabPage 
-              sessions={mockSessions} 
-              routines={mockRoutines}
-              onNewChat={() => {}}
-              onNewSession={() => {}}
-            />
-          </div>
-        </div>
+      </div>
+      {view === 'settings' ? (
+        <SettingsView />
+      ) : (
+        <main className="mx-auto w-full max-w-[900px] px-4 py-6">
+          <ChatsPage />
+        </main>
       )}
     </div>
   )
@@ -130,7 +168,7 @@ function DemoPage() {
 export default function Page() {
   return (
     <ThemeProvider defaultTheme="system">
-      <DemoPage />
+      <Shell />
     </ThemeProvider>
   )
 }
