@@ -10,7 +10,7 @@ import {
 import { Button } from '@/components/Button'
 import { Input, Textarea } from '@/components/Input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/Card'
-import { Dropdown, DropdownItem } from '@/components/Dropdown>
+import { Dropdown, DropdownItem } from '@/components/Dropdown'
 import { 
   ChatMessage, CodeBlock, ToolOutput, ActivityItem 
 } from '@/components/ChatMessage'
@@ -124,7 +124,7 @@ export function SpacingElevationDemo() {
             <div key={i} className="flex items-center gap-4">
               <div className="w-10 text-label-sm text-on-surface-variant font-mono">{space}</div>
               <div className="flex-1 h-2 bg-surface-container rounded" style={{ width: space.includes('64') ? '100%' : space.includes('40') ? '80%' : space.includes('24') ? '50%' : space.includes('12') ? '30%' : '20%' }} />
-            </div
+            </div>
           ))}
         </CardContent>
       </Card>
@@ -139,12 +139,12 @@ export function SpacingElevationDemo() {
             { level: 'Level 1 (Base)', shadow: 'none', desc: 'Primary reading plane' },
             { level: 'Level 2 (Cards)', shadow: '0 4px 12px rgba(0,0,0,0.1)', desc: 'Cards, containers' },
             { level: 'Level 3 (Modals)', shadow: '0 8px 24px rgba(0,0,0,0.12)', desc: 'Modals, popovers' },
-            { level: 'Focus Ring': shadow: '0 0 0 3px rgba(10,126,164,0.1)', desc: 'Keyboard focus' },
+            { level: 'Focus Ring', shadow: '0 0 0 3px rgba(10,126,164,0.1)', desc: 'Keyboard focus' },
           ].map((elev, i) => (
             <div key={i} className="p-4 rounded-lg" style={{ boxShadow: elev.shadow, backgroundColor: 'var(--surface)' }}>
               <div className="font-medium text-on-surface">{elev.level}</div>
               <div className="text-label-sm text-on-surface-variant">{elev.desc}</div>
-            </div
+            </div>
           ))}
         </CardContent>
       </Card>
@@ -154,19 +154,19 @@ export function SpacingElevationDemo() {
 
 export function RadiusDemo() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       {[
         { name: 'Full (9999px)', value: 'rounded-full', desc: 'Buttons, badges, pills' },
         { name: 'Large (8px)', value: 'rounded-lg', desc: 'Cards, containers, modals' },
         { name: 'Default (4px)', value: 'rounded-md', desc: 'Inputs, form elements' },
         { name: 'Small (2px)', value: 'rounded-sm', desc: 'Small UI elements' },
       ].map((radius, i) => (
-        <Card key={i} className="p-6 text-center>
+        <Card key={i} className="p-6 text-center">
           <div className={`w-24 h-24 mx-auto mb-3 ${radius.value} flex items-center justify-center`} style={{ backgroundColor: 'var(--surface-container)' }}>
-            <span className="text-on-surface-variant>{radius.name.split(' ')[0]}</span>
+            <span className="text-on-surface-variant">{radius.name.split(' ')[0]}</span>
           </div>
-          <h4 className="text-label-md font-medium text-on-surface>{radius.name}</h4>
-          <p className="text-label-sm text-on-surface-variant>{radius.desc}</p>
+          <h4 className="text-label-md font-medium text-on-surface">{radius.name}</h4>
+          <p className="text-label-sm text-on-surface-variant">{radius.desc}</p>
         </Card>
       ))}
     </div>
@@ -190,14 +190,14 @@ export function IconDemo() {
     <div className="space-y-6">
       {Object.entries(iconCategories).map(([category, icons]) => (
         <div key={category}>
-          <h3 className="text-title-lg text-on-surface mb-3>{category}</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3>
+          <h3 className="text-title-lg text-on-surface mb-3">{category}</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
             {icons.map(iconName => (
-              <div key={iconName} className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-surface-container transition-colors group>
-                <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors>
-                  <span className="text-label-sm text-on-surface-variant>{iconName}</span>
+              <div key={iconName} className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-surface-container transition-colors group">
+                <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+                  <span className="text-label-sm text-on-surface-variant">{iconName}</span>
                 </div>
-                <span className="text-label-sm text-on-surface-variant text-center truncate>{iconName}</span>
+                <span className="text-label-sm text-on-surface-variant text-center truncate">{iconName}</span>
               </div>
             ))}
           </div>
@@ -251,7 +251,6 @@ export function Overview() {
 // Components Demo
 // ============================================
 export function ComponentsDemo() {
-  // Initialize state variables without generics to avoid TSX parsing issues
   const [buttonState, setButtonState] = useState('idle')
   const [inputValue, setInputValue] = useState('')
   const [textareaValue, setTextareaValue] = useState('')
@@ -278,7 +277,7 @@ export function ComponentsDemo() {
 
       <section>
         <h2 className="text-headline-md text-on-surface mb-6">Inputs</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             label="Email"
             placeholder="you@example.com"
@@ -339,14 +338,14 @@ export function ComponentsDemo() {
 
       <section>
         <h2 className="text-headline-md text-on-surface mb-6">Cards</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card hover>
             <CardHeader>
               <CardTitle>Interactive Card</CardTitle>
               <CardDescription>Hover to see elevation change</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-body-md text-on-surface-variant>
+              <p className="text-body-md text-on-surface-variant">
                 Cards use Level 2 elevation by default, transitioning to Level 3 on hover.
               </p>
             </CardContent>
@@ -362,15 +361,15 @@ export function ComponentsDemo() {
               <CardDescription>Status indicators and metadata</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-body-md text-on-surface-variant>Content goes here with supporting information.</p>
+              <p className="text-body-md text-on-surface-variant">Content goes here with supporting information.</p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="text-center py-8>
-              <Code size={48} className="text-primary mx-auto mb-3} />
-              <h4 className="text-title-lg text-on-surface mb-1>Code Card</h4>
-              <p className="text-body-md text-on-surface-variant>Specialized card for code snippets</p>
+            <CardContent className="text-center py-8">
+              <Code size={48} className="text-primary mx-auto mb-3" />
+              <h4 className="text-title-lg text-on-surface mb-1">Code Card</h4>
+              <p className="text-body-md text-on-surface-variant">Specialized card for code snippets</p>
             </CardContent>
           </Card>
         </div>
@@ -378,7 +377,7 @@ export function ComponentsDemo() {
 
       <section>
         <h2 className="text-headline-md text-on-surface mb-6">Chat Messages</h2>
-        <div className="space-y-4 max-w-2xl>
+        <div className="space-y-4 max-w-2xl">
           <ChatMessage
             role="user"
             content="Can you help me understand the Aside design system?"
@@ -442,7 +441,7 @@ export function ComponentsDemo() {
 
       <section>
         <h2 className="text-headline-md text-on-surface mb-6">Activity Items</h2>
-        <div className="space-y-2 max-w-md>
+        <div className="space-y-2 max-w-md">
           <ActivityItem
             icon={<SearchIcon size={18} />}
             label="Searched for 'Aside browser design system'"
@@ -456,7 +455,7 @@ export function ComponentsDemo() {
             onClick={() => {}}
             expanded
           >
-            <div className="mt-2 p-3 bg-surface-container rounded-default text-sm>
+            <div className="mt-2 p-3 bg-surface-container rounded-default text-sm">
               Found 47 colors, 8 type scales, 4 elevation levels, 4 radius values
             </div>
           </ActivityItem>
@@ -481,7 +480,7 @@ export function ComponentsDemo() {
 
       <section>
         <h2 className="text-headline-md text-on-surface mb-6">Tool Outputs</h2>
-        <div className="space-y-4 max-w-2xl>
+        <div className="space-y-4 max-w-2xl">
           <ToolOutput
             title="Web Search: Helium browser review"
             status="completed"
@@ -490,9 +489,9 @@ export function ComponentsDemo() {
             onExpand={() => {}}
             expanded
           >
-            <div className="prose prose-sm max-w-none>
+            <div className="prose prose-sm max-w-none">
               <p>Helium is a Chromium-based browser focused on privacy and minimalism...</p>
-              <ul className="list-disc pl-5 space-y-1>
+              <ul className="list-disc pl-5 space-y-1">
                 <li>Built-in uBlock Origin</li>
                 <li>No background network requests</li>
                 <li>Anonymized Chrome Web Store queries</li>
@@ -508,7 +507,7 @@ export function ComponentsDemo() {
             onExpand={() => {}}
             expanded
           >
-            <div className="font-mono text-sm text-error bg-surface-container-highest p-3 rounded>
+            <div className="font-mono text-sm bg-surface-container-highest p-3 rounded">
               {`$ python extract_tokens.py
 > Fetching aside.com...
 > Parsing CSS custom properties...
@@ -527,7 +526,7 @@ export function ComponentsDemo() {
             onExpand={() => {}}
             expanded
           >
-            <div className="font-mono text-sm text-error bg-error-container/20 p-3 rounded>
+            <div className="font-mono text-sm text-error bg-error-container/20 p-3 rounded">
               {`error TS2322: Type 'string' is not assignable to type 'Theme'.
   Theme = 'light' | 'dark' | 'system'`}
             </div>
@@ -543,12 +542,12 @@ export function ComponentsDemo() {
 // ============================================
 export function SidePanelDemo({ onOpenSidePanel }: { onOpenSidePanel: () => void }) {
   return (
-    <div className="h-[80vh] relative>
-      <div className="absolute inset-0 bg-surface-container-low rounded-lg border border-outline-variant p-8 flex items-center justify-center>
-        <div className="text-center max-w-md>
+    <div className="h-[80vh] relative">
+      <div className="absolute inset-0 bg-surface-container-low rounded-lg border border-outline-variant p-8 flex items-center justify-center">
+        <div className="text-center max-w-md">
           <MessageSquare size={64} className="text-on-surface-variant/30 mx-auto mb-4" />
-          <h3 className="text-headline-md text-on-surface mb-2>Side Panel Demo</h3>
-          <p className="text-body-md text-on-surface-variant mb-6>
+          <h3 className="text-headline-md text-on-surface mb-2">Side Panel Demo</h3>
+          <p className="text-body-md text-on-surface-variant mb-6">
             Click the "Side Panel" button in the top navigation to see the full interactive side panel with chat sessions, routines, and composer.
           </p>
           <Button variant="primary" onClick={onOpenSidePanel} leftIcon={<MessageSquare size={18} />}>
@@ -565,12 +564,12 @@ export function SidePanelDemo({ onOpenSidePanel }: { onOpenSidePanel: () => void
 // ============================================
 export function NewTabDemo({ onOpenNewTab }: { onOpenNewTab: () => void }) {
   return (
-    <div className="h-[80vh] relative>
-      <div className="absolute inset-0 bg-surface-container-low rounded-lg border border-outline-variant p-8 flex items-center justify-center>
-        <div className="text-center max-w-md>
+    <div className="h-[80vh] relative">
+      <div className="absolute inset-0 bg-surface-container-low rounded-lg border border-outline-variant p-8 flex items-center justify-center">
+        <div className="text-center max-w-md">
           <Plus size={64} className="text-on-surface-variant/30 mx-auto mb-4" />
-          <h3 className="text-headline-md text-on-surface mb-2>New Tab Page Demo</h3>
-          <p className="text-body-md text-on-surface-variant mb-6>
+          <h3 className="text-headline-md text-on-surface mb-2">New Tab Page Demo</h3>
+          <p className="text-body-md text-on-surface-variant mb-6">
             Click the "New Tab" button in the top navigation to see the full new tab page with search, chat history, and routines.
           </p>
           <Button variant="primary" onClick={onOpenNewTab} leftIcon={<Plus size={18} />}>
