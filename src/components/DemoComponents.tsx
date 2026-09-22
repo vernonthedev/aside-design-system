@@ -248,9 +248,10 @@ export function Overview() {
 }
 
 // ============================================
-// Components Demo
+// Components Demo - FIXED VERSION
 // ============================================
 export function ComponentsDemo() {
+  // Initialize state variables
   const [buttonState, setButtonState] = useState<'idle' | 'loading'>('idle')
   const [inputValue, setInputValue] = useState('')
   const [textareaValue, setTextareaValue] = useState('')
