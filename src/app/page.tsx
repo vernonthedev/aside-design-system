@@ -8,12 +8,12 @@ import {
   ChevronLeft, X, Expand, Zap, Play, Pause, Stop
 } from '@/components/icons'
 import { Button } from '@/components/Button'
+import { Dropdown } from '@/components/Dropdown'
 import { SidePanel } from '@/components/SidePanel'
 import { NewTabPage } from '@/components/NewTabPage'
 import { ThemeProvider, useTheme } from '@/components/ThemeProvider'
 import { 
-  Overview, ComponentsDemo, SidePanelDemo, NewTabDemo,
-  ColorPalette, TypographyDemo, SpacingElevationDemo, RadiusDemo, IconDemo
+  Overview, ComponentsDemo, SidePanelDemo, NewTabDemo
 } from '@/components/DemoComponents'
 
 const mockSessions = [
@@ -58,7 +58,6 @@ function DemoPage() {
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <import { Dropdown } from '@/components/Dropdown'
             <Dropdown
               trigger={
                 <Button variant="ghost" size="sm" leftIcon={
