@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { 
   Sparkles, Code, Terminal, FileText, Copy, CheckCircle,
   MessageSquare, Bot, User, Layers, Settings, Search, Plus,
@@ -248,24 +247,15 @@ export function Overview() {
 }
 
 // ============================================
-// Components Demo - Fixed: No generics in useState
+// Components Demo - Stateless version to avoid TSX parsing issues
 // ============================================
 export function ComponentsDemo() {
-  // Use simple strings to avoid TSX parsing issues with generics
-  const [buttonState, setButtonState] = useState('idle')
-  const [inputValue, setInputValue] = useState('')
-  const [textareaValue, setTextareaValue] = useState('')
-  const [dropdownValue, setDropdownValue] = useState('option1')
-  const [menuOpen, setMenuOpen] = useState(false)
-
   return (
     <div className="space-y-8">
       <section>
         <h2 className="text-headline-md text-on-surface mb-6">Buttons</h2>
         <div className="flex flex-wrap gap-4 items-center">
-          <Button variant="primary" onClick={() => setButtonState('loading')}>
-            {buttonState === 'loading' ? 'Loading...' : 'Primary'}
-          </Button>
+          <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="primary" disabled>Disabled</Button>
@@ -282,8 +272,6 @@ export function ComponentsDemo() {
           <Input
             label="Email"
             placeholder="you@example.com"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
             leftIcon={<SearchIcon size={20} />}
             helperText="We'll never share your email"
           />
@@ -297,8 +285,6 @@ export function ComponentsDemo() {
           <Textarea
             label="Message"
             placeholder="Type your message here..."
-            value={textareaValue}
-            onChange={(e) => setTextareaValue(e.target.value)}
             helperText="Maximum 500 characters"
           />
           <Input
