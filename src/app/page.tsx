@@ -18,6 +18,9 @@ import {
 } from '@/components/ChatMessage'
 import { ThemeProvider, useTheme } from '@/components/ThemeProvider'
 
+// ============================================
+// Data
+// ============================================
 const modelOptions: DropdownItem[] = [
   { label: 'Nemotron 3 Ultra 550B', value: 'nemotron-3-ultra', icon: <Sparkles size={18} /> },
   { label: 'GPT-4 Turbo', value: 'gpt-4-turbo', icon: <Sparkles size={18} /> },
@@ -57,147 +60,9 @@ const mockRoutines = [
   { id: 'r3', name: 'Code review automation', description: 'Auto-assign reviewers and run checks', status: 'paused' as const, lastRun: '3 days ago' },
 ]
 
-function DemoPage() {
-  const { theme, resolvedTheme, setTheme } = useTheme()
-  const [sidePanelOpen, setSidePanelOpen] = useState(false)
-  const [newTabOpen, setNewTabOpen] = useState(false)
-  const [activeView, setActiveView] = useState<'overview' | 'components' | 'sidepanel' | 'newtab'>('overview')
-  const [codeExpanded, setCodeExpanded] = useState(false)
-
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Top Navigation */}
-      <header className="border-b border-outline-variant bg-surface/80 backdrop-blur-sm sticky top-0 z-40">
-        <div className="max-w-[1320px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-title-lg font-medium text-on-surface">Aside Design System</span>
-            <nav className="flex items-center gap-1 ml-4 border-l border-outline-variant pl-4">
-              {['overview', 'components', 'sidepanel', 'newtab'].map(view => (
-                <button
-                  key={view}
-                  onClick={() => setActiveView(view)}
-                  className={`px-3 py-1.5 text-label-sm rounded-default transition-colors ${
-                    activeView === view 
-                      ? 'bg-primary text-on-primary' 
-                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
-                  }`}
-                >
-                  {view.charAt(0).toUpperCase() + view.slice(1)}
-                </button>
-              ))}
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <Dropdown
-              trigger={
-                <Button variant="ghost" size="sm" leftIcon={
-                  theme === 'light' ? <Sun size={18} /> : 
-                  theme === 'dark' ? <Moon size={18} /> : 
-                  <Monitor size={18} />
-                }>
-                  {theme.charAt(0).toUpperCase() + theme.slice(1)}
-                  <ChevronDown size={14} />
-                </Button>
-              }
-              items={[
-                { label: 'Light', value: 'light', icon: <Sun size={16} /> },
-                { label: 'Dark', value: 'dark', icon: <Moon size={16} /> },
-                { label: 'System', value: 'system', icon: <Monitor size={16} /> },
-              ]}
-              value={theme}
-              onChange={setTheme}
-              placeholder="Theme"
-            />
-            <Button variant="ghost" size="sm" onClick={() => setSidePanelOpen(true)} leftIcon={<MessageSquare size={18} />}>
-              Side Panel
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setNewTabOpen(true)} leftIcon={<Plus size={18} />}>
-              New Tab
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-[1320px] mx-auto px-6 py-8">
-        {activeView === 'overview' && <Overview />}
-        {activeView === 'components' && <ComponentsDemo />}
-        {activeView === 'sidepanel' && <SidePanelDemo />}
-        {activeView === 'newtab' && <NewTabDemo />}
-      </main>
-
-      {/* Side Panel Modal */}
-      {sidePanelOpen && (
-        <div className="fixed inset-0 z-50 flex items-end">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setSidePanelOpen(false)} />
-          <SidePanel
-            sessions={mockSessions}
-            routines={mockRoutines}
-            onNewChat={() => {}}
-            onNewSession={() => {}}
-            onSessionSelect={() => {}}
-            onClose={() => setSidePanelOpen(false)}
-            theme={theme}
-          />
-        </div>
-      )}
-
-      {/* New Tab Modal */}
-      {newTabOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setNewTabOpen(false)}>
-          <div className="w-full max-w-4xl h-[90vh] bg-surface rounded-lg shadow-level-3 overflow-hidden" onClick={e => e.stopPropagation()}>
-            <NewTabPage 
-              sessions={mockSessions} 
-              routines={mockRoutines}
-              onNewChat={() => {}}
-              onNewSession={() => {}}
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function Overview() {
-  return (
-    <div className="space-y-8">
-      <section>
-        <h1 className="text-display text-on-surface mb-4">Aside Design System</h1>
-        <p className="text-body-lg text-on-surface-variant max-w-2xl">
-          Complete design system extracted from the Aside browser (v1.0.914.1). 
-          Includes color tokens, typography, spacing, elevation, components, and icons - 
-          ready to use in your projects.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-headline-md text-on-surface mb-6">Color Palette</h2>
-        <ColorPalette />
-      </section>
-
-      <section>
-        <h2 className="text-headline-md text-on-surface mb-6">Typography Scale</h2>
-        <TypographyDemo />
-      </section>
-
-      <section>
-        <h2 className="text-headline-md text-on-surface mb-6">Spacing & Elevation</h2>
-        <SpacingElevationDemo />
-      </section>
-
-      <section>
-        <h2 className="text-headline-md text-on-surface mb-6">Border Radius</h2>
-        <RadiusDemo />
-      </section>
-
-      <section>
-        <h2 className="text-headline-md text-on-surface mb-6">Icon System</h2>
-        <IconDemo />
-      </section>
-    </div>
-  )
-}
-
+// ============================================
+// Overview Components
+// ============================================
 function ColorPalette() {
   const colors = [
     { name: 'Primary', value: 'var(--primary)', on: 'var(--on-primary)', container: 'var(--primary-container)', onContainer: 'var(--on-primary-container)' },
@@ -342,16 +207,14 @@ function IconDemo() {
         <div key={category}>
           <h3 className="text-title-lg text-on-surface mb-3">{category}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
-            {icons.map(iconName => {
-              return (
-                <div key={iconName} className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-surface-container transition-colors group">
-                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
-                    <span className="text-label-sm text-on-surface-variant">{iconName}</span>
-                  </div>
-                  <span className="text-label-sm text-on-surface-variant text-center truncate">{iconName}</span>
+            {icons.map(iconName => (
+              <div key={iconName} className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-surface-container transition-colors group">
+                <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+                  <span className="text-label-sm text-on-surface-variant">{iconName}</span>
                 </div>
-              )
-            })}
+                <span className="text-label-sm text-on-surface-variant text-center truncate">{iconName}</span>
+              </div>
+            ))}
           </div>
         </div>
       ))}
@@ -359,6 +222,49 @@ function IconDemo() {
   )
 }
 
+function Overview() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <h1 className="text-display text-on-surface mb-4">Aside Design System</h1>
+        <p className="text-body-lg text-on-surface-variant max-w-2xl">
+          Complete design system extracted from the Aside browser (v1.0.914.1). 
+          Includes color tokens, typography, spacing, elevation, components, and icons - 
+          ready to use in your projects.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-headline-md text-on-surface mb-6">Color Palette</h2>
+        <ColorPalette />
+      </section>
+
+      <section>
+        <h2 className="text-headline-md text-on-surface mb-6">Typography Scale</h2>
+        <TypographyDemo />
+      </section>
+
+      <section>
+        <h2 className="text-headline-md text-on-surface mb-6">Spacing & Elevation</h2>
+        <SpacingElevationDemo />
+      </section>
+
+      <section>
+        <h2 className="text-headline-md text-on-surface mb-6">Border Radius</h2>
+        <RadiusDemo />
+      </section>
+
+      <section>
+        <h2 className="text-headline-md text-on-surface mb-6">Icon System</h2>
+        <IconDemo />
+      </section>
+    </div>
+  )
+}
+
+// ============================================
+// Components Demo
+// ============================================
 function ComponentsDemo() {
   const [buttonState, setButtonState] = useState<'idle' | 'loading'>('idle')
   const [inputValue, setInputValue] = useState('')
@@ -646,7 +552,10 @@ function ComponentsDemo() {
   )
 }
 
-function SidePanelDemo() {
+// ============================================
+// Side Panel Demo
+// ============================================
+function SidePanelDemo({ onOpenSidePanel }: { onOpenSidePanel: () => void }) {
   return (
     <div className="h-[80vh] relative">
       <div className="absolute inset-0 bg-surface-container-low rounded-lg border border-outline-variant p-8 flex items-center justify-center">
@@ -656,7 +565,7 @@ function SidePanelDemo() {
           <p className="text-body-md text-on-surface-variant mb-6">
             Click the "Side Panel" button in the top navigation to see the full interactive side panel with chat sessions, routines, and composer.
           </p>
-          <Button variant="primary" onClick={() => setSidePanelOpen(true)} leftIcon={<MessageSquare size={18} />}>
+          <Button variant="primary" onClick={onOpenSidePanel} leftIcon={<MessageSquare size={18} />}>
             Open Side Panel
           </Button>
         </div>
@@ -665,7 +574,10 @@ function SidePanelDemo() {
   )
 }
 
-function NewTabDemo() {
+// ============================================
+// New Tab Demo
+// ============================================
+function NewTabDemo({ onOpenNewTab }: { onOpenNewTab: () => void }) {
   return (
     <div className="h-[80vh] relative">
       <div className="absolute inset-0 bg-surface-container-low rounded-lg border border-outline-variant p-8 flex items-center justify-center">
@@ -675,7 +587,7 @@ function NewTabDemo() {
           <p className="text-body-md text-on-surface-variant mb-6">
             Click the "New Tab" button in the top navigation to see the full new tab page with search, chat history, and routines.
           </p>
-          <Button variant="primary" onClick={() => setNewTabOpen(true)} leftIcon={<Plus size={18} />}>
+          <Button variant="primary" onClick={onOpenNewTab} leftIcon={<Plus size={18} />}>
             Open New Tab
           </Button>
         </div>
@@ -684,20 +596,113 @@ function NewTabDemo() {
   )
 }
 
-// Register icon components for the IconDemo
-if (typeof window !== 'undefined') {
-  (window as any).__ICON_COMPONENTS__ = {
-    ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Menu, Close, Search, Expand,
-    Plus, Minus, Send, Attach, Sparkles, Shield, Layers, Settings, Download, Upload,
-    Copy, Edit, Trash, Check, Refresh, MessageSquare, MessageSquareText, Bot, AtSign, Hash,
-    Image, FileText, Code, Terminal, Globe, Link, ExternalLink, User, UserPlus, UserMinus,
-    Lock, LockOpen, Key, Circle, CircleCheck, CircleX, CircleAlert, Dot, BadgeCheck, Flag,
-    LayoutSidebar, LayoutGrid, LayoutList, LayoutDashboard, Home, Bookmark, Star, Heart,
-    Bell, BellOff, Calendar, Clock, Tag, Folder, FolderOpen, Archive, Database, Server,
-    Cpu, HardDrive, Zap, Repeat, Play, Pause, Stop, SkipBack, SkipForward,
-  }
+// ============================================
+// Main Demo Page
+// ============================================
+function DemoPage() {
+  const { theme, resolvedTheme, setTheme } = useTheme()
+  const [sidePanelOpen, setSidePanelOpen] = useState(false)
+  const [newTabOpen, setNewTabOpen] = useState(false)
+  const [activeView, setActiveView] = useState<'overview' | 'components' | 'sidepanel' | 'newtab'>('overview')
+  const [codeExpanded, setCodeExpanded] = useState(false)
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Top Navigation */}
+      <header className="border-b border-outline-variant bg-surface/80 backdrop-blur-sm sticky top-0 z-40">
+        <div className="max-w-[1320px] mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="text-title-lg font-medium text-on-surface">Aside Design System</span>
+            <nav className="flex items-center gap-1 ml-4 border-l border-outline-variant pl-4">
+              {['overview', 'components', 'sidepanel', 'newtab'].map(view => (
+                <button
+                  key={view}
+                  onClick={() => setActiveView(view)}
+                  className={`px-3 py-1.5 text-label-sm rounded-default transition-colors ${
+                    activeView === view 
+                      ? 'bg-primary text-on-primary' 
+                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
+                  }`}
+                >
+                  {view.charAt(0).toUpperCase() + view.slice(1)}
+                </button>
+              ))}
+            </nav>
+          </div>
+          <div className="flex items-center gap-3">
+            <Dropdown
+              trigger={
+                <Button variant="ghost" size="sm" leftIcon={
+                  theme === 'light' ? <Sun size={18} /> : 
+                  theme === 'dark' ? <Moon size={18} /> : 
+                  <Monitor size={18} />
+                }>
+                  {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                  <ChevronDown size={14} />
+                </Button>
+              }
+              items={[
+                { label: 'Light', value: 'light', icon: <Sun size={16} /> },
+                { label: 'Dark', value: 'dark', icon: <Moon size={16} /> },
+                { label: 'System', value: 'system', icon: <Monitor size={16} /> },
+              ]}
+              value={theme}
+              onChange={setTheme}
+              placeholder="Theme"
+            />
+            <Button variant="ghost" size="sm" onClick={() => setSidePanelOpen(true)} leftIcon={<MessageSquare size={18} />}>
+              Side Panel
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setNewTabOpen(true)} leftIcon={<Plus size={18} />}>
+              New Tab
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-[1320px] mx-auto px-6 py-8">
+        {activeView === 'overview' && <Overview />}
+        {activeView === 'components' && <ComponentsDemo />}
+        {activeView === 'sidepanel' && <SidePanelDemo onOpenSidePanel={() => setSidePanelOpen(true)} />}
+        {activeView === 'newtab' && <NewTabDemo onOpenNewTab={() => setNewTabOpen(true)} />}
+      </main>
+
+      {/* Side Panel Modal */}
+      {sidePanelOpen && (
+        <div className="fixed inset-0 z-50 flex items-end">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setSidePanelOpen(false)} />
+          <SidePanel
+            sessions={mockSessions}
+            routines={mockRoutines}
+            onNewChat={() => {}}
+            onNewSession={() => {}}
+            onSessionSelect={() => {}}
+            onClose={() => setSidePanelOpen(false)}
+            theme={theme}
+          />
+        </div>
+      )}
+
+      {/* New Tab Modal */}
+      {newTabOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setNewTabOpen(false)}>
+          <div className="w-full max-w-4xl h-[90vh] bg-surface rounded-lg shadow-level-3 overflow-hidden" onClick={e => e.stopPropagation()}>
+            <NewTabPage 
+              sessions={mockSessions} 
+              routines={mockRoutines}
+              onNewChat={() => {}}
+              onNewSession={() => {}}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
+// ============================================
+// Page Export
+// ============================================
 export default function Page() {
   return (
     <ThemeProvider defaultTheme="system">
