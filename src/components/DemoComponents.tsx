@@ -8,7 +8,7 @@ import {
   Search as SearchIcon
 } from '@/components/icons'
 import { Button } from '@/components/Button'
-import { Input, Textarea } from '@/components/Input'
+import { Input, Textarea } from '@/components/Input>
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/Card'
 import { Dropdown, DropdownItem } from '@/components/Dropdown'
 import { 
@@ -21,7 +21,7 @@ import {
 const modelOptions: DropdownItem[] = [
   { label: 'Nemotron 3 Ultra 550B', value: 'nemotron-3-ultra', icon: <Sparkles size={18} /> },
   { label: 'GPT-4 Turbo', value: 'gpt-4-turbo', icon: <Sparkles size={18} /> },
-  { label: 'Claude 3 Opus', value: 'claude-3-opus', icon: <Sparkles size={18} /> },
+  { label: 'Claude 3 Opus', value: 'claede-3-opus', icon: <Sparkles size={18} /> },
   { label: 'Settings', value: 'settings', icon: <Settings size={18} /> },
 ]
 
@@ -124,7 +124,7 @@ export function SpacingElevationDemo() {
             <div key={i} className="flex items-center gap-4">
               <div className="w-10 text-label-sm text-on-surface-variant font-mono">{space}</div>
               <div className="flex-1 h-2 bg-surface-container rounded" style={{ width: space.includes('64') ? '100%' : space.includes('40') ? '80%' : space.includes('24') ? '50%' : space.includes('12') ? '30%' : '20%' }} />
-            </div>
+            </div
           ))}
         </CardContent>
       </Card>
@@ -139,12 +139,12 @@ export function SpacingElevationDemo() {
             { level: 'Level 1 (Base)', shadow: 'none', desc: 'Primary reading plane' },
             { level: 'Level 2 (Cards)', shadow: '0 4px 12px rgba(0,0,0,0.1)', desc: 'Cards, containers' },
             { level: 'Level 3 (Modals)', shadow: '0 8px 24px rgba(0,0,0,0.12)', desc: 'Modals, popovers' },
-            { level: 'Focus Ring', shadow: '0 0 0 3px rgba(10,126,164,0.1)', desc: 'Keyboard focus' },
+            { level: 'Focus Ring': shadow: '0 0 0 3px rgba(10,126,164,0.1)', desc: 'Keyboard focus' },
           ].map((elev, i) => (
             <div key={i} className="p-4 rounded-lg" style={{ boxShadow: elev.shadow, backgroundColor: 'var(--surface)' }}>
               <div className="font-medium text-on-surface">{elev.level}</div>
               <div className="text-label-sm text-on-surface-variant">{elev.desc}</div>
-            </div>
+            </div
           ))}
         </CardContent>
       </Card>
@@ -166,7 +166,7 @@ export function RadiusDemo() {
             <span className="text-on-surface-variant">{radius.name.split(' ')[0]}</span>
           </div>
           <h4 className="text-label-md font-medium text-on-surface">{radius.name}</h4>
-          <p className="text-label-sm text-on-surface-variant">{radius.desc}</p>
+          <p className="text-label-sm text-on-surface-variant>{radius.desc}</p>
         </Card>
       ))}
     </div>
@@ -248,11 +248,11 @@ export function Overview() {
 }
 
 // ============================================
-// Components Demo - FIXED VERSION
+// Components Demo
 // ============================================
 export function ComponentsDemo() {
-  // Initialize state variables
-  const [buttonState, setButtonState] = useState<'idle' | 'loading'>('idle')
+  // Initialize state variables without generics to avoid TSX parsing issues
+  const [buttonState, setButtonState] = useState('idle')
   const [inputValue, setInputValue] = useState('')
   const [textareaValue, setTextareaValue] = useState('')
   const [dropdownValue, setDropdownValue] = useState('option1')
@@ -339,7 +339,7 @@ export function ComponentsDemo() {
 
       <section>
         <h2 className="text-headline-md text-on-surface mb-6">Cards</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4>
           <Card hover>
             <CardHeader>
               <CardTitle>Interactive Card</CardTitle>
@@ -508,7 +508,7 @@ export function ComponentsDemo() {
             onExpand={() => {}}
             expanded
           >
-            <div className="font-mono text-sm bg-surface-container-highest p-3 rounded">
+            <div className="font-mono text-sm text-error bg-surface-container-highest p-3 rounded">
               {`$ python extract_tokens.py
 > Fetching aside.com...
 > Parsing CSS custom properties...
