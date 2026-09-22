@@ -248,9 +248,10 @@ export function Overview() {
 }
 
 // ============================================
-// Components Demo
+// Components Demo - Fixed: No generics in useState
 // ============================================
 export function ComponentsDemo() {
+  // Use simple strings to avoid TSX parsing issues with generics
   const [buttonState, setButtonState] = useState('idle')
   const [inputValue, setInputValue] = useState('')
   const [textareaValue, setTextareaValue] = useState('')
