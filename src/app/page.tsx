@@ -13,7 +13,7 @@ import { SidePanel } from '@/components/SidePanel'
 import { NewTabPage } from '@/components/NewTabPage'
 import { ThemeProvider, useTheme } from '@/components/ThemeProvider'
 import { 
-  Overview, ComponentsDemo, SidePanelDemo, NewTabDemo
+  Overview, SidePanelDemo, NewTabDemo
 } from '@/components/DemoComponents'
 
 const mockSessions = [
@@ -32,7 +32,7 @@ function DemoPage() {
   const { theme, resolvedTheme, setTheme } = useTheme()
   const [sidePanelOpen, setSidePanelOpen] = useState(false)
   const [newTabOpen, setNewTabOpen] = useState(false)
-  const [activeView, setActiveView] = useState<'overview' | 'components' | 'sidepanel' | 'newtab'>('overview')
+  const [activeView, setActiveView] = useState<'overview' | 'sidepanel' | 'newtab'>('overview')
 
   return (
     <div className="min-h-screen bg-background">
@@ -42,7 +42,7 @@ function DemoPage() {
           <div className="flex items-center gap-4">
             <span className="text-title-lg font-medium text-on-surface">Aside Design System</span>
             <nav className="flex items-center gap-1 ml-4 border-l border-outline-variant pl-4">
-              {['overview', 'components', 'sidepanel', 'newtab'].map(view => (
+              {['overview', 'sidepanel', 'newtab'].map(view => (
                 <button
                   key={view}
                   onClick={() => setActiveView(view)}
@@ -90,7 +90,6 @@ function DemoPage() {
 
       <main className="max-w-[1320px] mx-auto px-6 py-8">
         {activeView === 'overview' && <Overview />}
-        {activeView === 'components' && <ComponentsDemo />}
         {activeView === 'sidepanel' && <SidePanelDemo onOpenSidePanel={() => setSidePanelOpen(true)} />}
         {activeView === 'newtab' && <NewTabDemo onOpenNewTab={() => setNewTabOpen(true)} />}
       </main>
